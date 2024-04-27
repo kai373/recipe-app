@@ -12,8 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('recipes', function (Blueprint $table) {
-            $table->id();
+            $table->ulid('id')->primary();
+            $table->foreignUlid('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('category_id')->constrained();
+            $table->string('title');
+            $table->text('description');
+            $table->text('image')->nullable();
+            $table->unsignedBigInteger('views')->default(0);
             $table->timestamps();
+            // $table->timestamp('deleted_at')->nullable();
+            $table->softDeletes();
         });
     }
 
